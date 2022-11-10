@@ -1,0 +1,4 @@
+﻿  Source.c
+C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(36,2): warning C4013: system: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(57,4): warning C4013: screen_F1: нет определения; предполагается "extern" с возвратом типа "int"
+  Kurs_1_c.vcxproj -> C:\Users\smole\source\repos\Kurs_1_c\x64\Debug\Kurs_1_c.exe
