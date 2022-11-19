@@ -1,4 +1,8 @@
 ﻿  Source.c
-C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(47,2): warning C4013: system: нет определения; предполагается "extern" с возвратом типа "int"
-C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(69,4): warning C4013: screen_F: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(34,8): warning C4566: символ, представленный универсальным именем символа "\u03C0", невозможно представить в текущей кодовой странице (1251)
+C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(35,8): warning C4566: символ, представленный универсальным именем символа "\u03C0", невозможно представить в текущей кодовой странице (1251)
+C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(100,3): warning C4013: system: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(123,4): warning C4013: screen_F: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(208,4): warning C4013: screen_tab_F: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(55): warning C4716: print_F: должна возвращать значение
   Kurs_1_c.vcxproj -> C:\Users\smole\source\repos\Kurs_1_c\x64\Debug\Kurs_1_c.exe
