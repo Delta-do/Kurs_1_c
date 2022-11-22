@@ -1,6 +1,8 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #define _USE_MATH_DEFINES
 #include <stdio.h>
+#include <io.h> //_setmode
+#include <fcntl.h> //_O_U16TEXT
 #include <locale.h>
 #include <math.h>
 
@@ -24,34 +26,40 @@ double F2(double x)
 	return y;
 }
 
-//поменять кодировку на юникод по всей программе
 int print_F(int n)
 {
+	int d = _setmode(_fileno(stdout), _O_U16TEXT); //меняем кодировку на юникод
+	//wprintf(L"%d\n", d);
+
 	switch (n)
 	{
 	case 1:
 	{
-		puts("||                 cos(πx)                                   ||");
-		puts("||        F1(x) = --------- + x * sin(πx)                    ||");
-		puts("||                    x                                      ||");
+		wprintf(L"||                 cos(πx)                                   ||\n");
+		wprintf(L"||        F1(x) = --------- + x * sin(πx)                    ||\n");
+		wprintf(L"||                    x                                      ||\n");
 		break;
 	}
 	case 2:
 	{
-		puts("||                  r                                        ||");
-		puts("||                 |         3 + x                           ||");
-		puts("||                 |   1 + --------- ,    x <= 0             ||");
-		puts("||                 |        1 + x^2                          ||");
-		puts("||                 |                                         ||");
-		puts("||        F2(x) = k    1 + (1 - x)^2 ,    0 < x < 1          ||");
-		puts("||                 |                                         ||");
-		puts("||                 |       1 + x                             ||");
-		puts("||                 |   -------------- ,   x >= 1             ||");
-		puts("||                 |    1 + cos^2(x)                         ||");
-		puts("||                  q                                        ||");
+		wprintf(L"||                 「                                        ||\n");
+		wprintf(L"||                 |         3 + x                           ||\n");
+		wprintf(L"||                 |   1 + --------- ,    x <= 0             ||\n");
+		wprintf(L"||                 |        1 + x²                           ||\n");
+		wprintf(L"||                 |                                         ||\n");
+		wprintf(L"||        F2(x) = <    1 + (1 - x)² ,     0 < x < 1          ||\n");
+		wprintf(L"||                 |                                         ||\n");
+		wprintf(L"||                 |       1 + x                             ||\n");
+		wprintf(L"||                 |   -------------- ,   x >= 1             ||\n");
+		wprintf(L"||                 |    1 + cos²(x)                          ||\n");
+		wprintf(L"||                 L                                         ||\n");
 		break;
 	}
 	}
+
+	d = _setmode(_fileno(stdout), d); //меняем кодировку обратно
+
+	return 0;
 }
 
 int tab_F(double x1, double x2, double step, int interval_type, int n)
@@ -315,6 +323,7 @@ int screen_tab_F(int n)
 					return 0;
 				case 2:
 					screen_tab_F(n);
+					return 0;
 				case 3:
 					screen_F(n);
 					return 0;
