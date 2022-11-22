@@ -54,24 +54,48 @@ int print_F(int n)
 	}
 }
 
-int tab_F(double x1, double x2, double step, int interval_type)
+int tab_F(double x1, double x2, double step, int interval_type, int n)
 {
+	double (*pF) (double) = F1;
+
+	if (n == 2)
+	{
+		pF = F2;
+	}
+
 	switch (interval_type)
 	{
 	case 1:
+		x1 += step;
 		break;
 	case 2:
 		break;
 	case 3:
+		x1 += step;
+		x2 += step;
 		break;
 	case 4:
+		x2 += step;
 		break;
 	}
+
+	puts("======================");
+	printf("||   x   |   F%d(x)  ||\n", n);
+	puts("||------------------||");
 
 	for (double x = x1; x < x2; x += step)
 	{
-
+		if (n == 1 && x == 0)
+		{
+			printf("|| %5.1lf |     -    ||\n", x);
+		}
+		else
+		{
+			printf("|| %5.1lf | %8.2lf ||\n", x, pF(x));
+		}
 	}
+
+	puts("======================");
 
 	return 0;
 }
@@ -119,15 +143,11 @@ int screen_start(int do_delete)
 		switch (v)
 		{
 		case 1:
-		{
 			screen_F(1);
 			return 0;
-		}
 		case 2:
-		{
 			screen_F(2);
 			return 0;
-		}
 		case 0:
 			return 0;
 
@@ -163,7 +183,8 @@ int screen_F(int n)
 		{
 		case 1:
 		{
-			double x, y;
+			double x;
+			double y = 0;
 			puts("Введите значение x");
 			printf("x = ");
 			scanf("%lg", &x);
@@ -204,15 +225,11 @@ int screen_F(int n)
 			return 0;
 		}
 		case 2:
-		{
 			screen_tab_F(n);
 			return 0;
-		}
 		case 3:
-		{
 			screen_start(1);
 			return 0;
-		}
 		case 0:
 			return 0;
 
@@ -250,17 +267,6 @@ int screen_tab_F(int n)
 		{
 		case 1:
 		{
-			puts("Введите границы промежутка");
-			printf("x1 = ");
-			scanf("%lg", &x1);
-			printf("x2 = ");
-			scanf("%lg", &x2);
-			puts("Введите шаг табуляции");
-			printf("h = ");
-			scanf("%lg", &h);
-
-			//проверка, что x1 < x2
-
 			puts("Выберите вид промежутка");
 			puts(" 1 - Интервал      (x1, x2)");
 			puts(" 2 - Полуинтервал  [x1, x2)");
@@ -269,42 +275,71 @@ int screen_tab_F(int n)
 			printf("> ");
 			scanf("%d", &t);
 
-			//другой вид цикла?
-			switch (t)
+			puts("Введите границы промежутка");
+			printf("x1 = ");
+			scanf("%lg", &x1);
+			printf("x2 = ");
+			scanf("%lg", &x2);
+
+			while (!(x1 < x2))
 			{
-			case 1:
-			{
-				break;
-			}
-			case 2:
-			{
-				break;
-			}
-			case 3:
-			{
-				break;
-			}
-			case 4:
-			{
-				break;
-			}
+				fseek(stdin, 0, SEEK_END);
+				puts("Введены некорректные значения: x1 должен быть меньше x2");
+				puts("Введите другие значения");
+				printf("x1 = ");
+				scanf("%lg", &x1);
+				printf("x2 = ");
+				scanf("%lg", &x2);
 			}
 
-			tab_F(x1, x2, h, t); // если t исп-ся в этой функции, то не передаётся
+			puts("Введите шаг табуляции");
+			printf("h = ");
+			scanf("%lg", &h);
+
+			tab_F(x1, x2, h, t, n);
+
+			puts("Каковы дальнейшие действия?");
+			puts(" 1 - Построить график по значениям табуляции");
+			puts(" 2 - выполнить ещё одно табулирование функции");
+			puts(" 3 - вернуться к расчёту функции");
+			puts(" 4 - вернуться в главное меню");
+			puts(" 0 - выйти из программы");
+			printf("> ");
+			scanf("%d", &v);
+
+			while (1)
+			{
+				switch (v)
+				{
+				case 1:
+					return 0;
+				case 2:
+					screen_tab_F(n);
+				case 3:
+					screen_F(n);
+					return 0;
+				case 4:
+					screen_start(1);
+					return 0;
+				case 0:
+					return 0;
+
+				default:
+					v = cycle_input(4);
+				}
+			}
+
 			return 0;
 		}
 		case 2:
-		{
 			screen_F(n);
 			return 0;
-		}
 		case 3:
-		{
 			screen_start(1);
 			return 0;
-		}
 		case 0:
 			return 0;
+
 		default:
 			v = cycle_input(3);
 		}
