@@ -1,5 +1,5 @@
 ﻿  Source.c
-C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(132,3): warning C4013: system: нет определения; предполагается "extern" с возвратом типа "int"
-C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(154,4): warning C4013: screen_F: нет определения; предполагается "extern" с возвратом типа "int"
-C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(236,4): warning C4013: screen_tab_F: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(232,4): warning C4013: screen_F: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(314,4): warning C4013: screen_tab_F: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\smole\source\repos\Kurs_1_c\Kurs_1_c\Source.c(474,41): warning C4133: функция: несовместимые типы - из "SMALL_RECT *" в "const SMALL_RECT *"
   Kurs_1_c.vcxproj -> C:\Users\smole\source\repos\Kurs_1_c\x64\Debug\Kurs_1_c.exe

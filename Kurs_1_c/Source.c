@@ -3,8 +3,12 @@
 #include <stdio.h>
 #include <io.h> //_setmode
 #include <fcntl.h> //_O_U16TEXT
+#include <windows.h>
 #include <locale.h>
 #include <math.h>
+
+#define SCREENW 60 //размеры поля вывода в символах
+#define SCREENH 40
 
 double F1(double x)
 {
@@ -67,9 +71,7 @@ int tab_F(double x1, double x2, double step, int interval_type, int n)
 	double (*pF) (double) = F1;
 
 	if (n == 2)
-	{
 		pF = F2;
-	}
 
 	switch (interval_type)
 	{
@@ -104,6 +106,82 @@ int tab_F(double x1, double x2, double step, int interval_type, int n)
 	}
 
 	puts("======================");
+
+	return 0;
+}
+
+int draw_F(double x1, double x2, int interval_type, int n)
+{
+	char screen[SCREENW][SCREENH];
+	double x, y[SCREENW];
+	double ymin = 0, ymax = 0;
+	double hx, hy;
+	int i, j;
+	int xz, yz;
+
+	double (*pF) (double) = F1;
+
+	if (n == 2) pF = F2;
+
+	hx = (x2 - x1) / (SCREENW - 1);
+
+	switch (interval_type)
+	{
+	case 1:
+		x1 += hx;
+		break;
+	case 2:
+		break;
+	case 3:
+		x1 += hx;
+		x2 += hx;
+		break;
+	case 4:
+		x2 += hx;
+		break;
+	}
+
+	for (i = 0, x = x1; i < SCREENW; ++i, x += hx) 
+	{
+		if (n == 1 && x == 0) //учитываем область допустимых значений
+			y[i] = pF(x + 0.1);
+		else
+			y[i] = pF(x); //расчет значений функции для каждой точки поля вывода графика
+
+		if (y[i] < ymin) ymin = y[i];
+		if (y[i] > ymax) ymax = y[i];
+	}
+
+	hy = (ymax - ymin) / (SCREENH - 1);
+	yz = (int)floor(ymax / hy + 0.5);
+	xz = (int)floor((0. - x1) / hx + 0.5);
+
+	//построение осей и заполнение массива отображения пробелами
+
+	for (j = 0; j < SCREENH; ++j)
+		for (i = 0; i < SCREENW; ++i)
+		{
+			if (j == yz && i == xz) screen[i][j] = '+';
+			else if (j == yz) screen[i][j] = '-';
+			else if (i == xz) screen[i][j] = '|';
+			else screen[i][j] = ' ';
+		}
+
+	//определение положения значения функции на поле вывода
+
+	for (i = 0; i < SCREENW; ++i) 
+	{
+		j = (int)floor((ymax - y[i]) / hy + 0.5);
+		screen[i][j] = '*';
+	}
+
+	//печать массива символов
+
+	for (j = 0; j < SCREENH; ++j) 
+	{
+		for (i = 0; i < SCREENW; ++i)  putchar(screen[i][j]);
+		putchar('\n');
+	}
 
 	return 0;
 }
@@ -179,7 +257,7 @@ int screen_F(int n)
 	puts("===============================================================");
 	puts("Каковы дальнейшие действия?");
 	puts(" 1 - Задать единичное значение");
-	puts(" 2 - Задать промежуток для табуляции");
+	puts(" 2 - Задать промежуток для табуляции и построения графика");
 	puts(" 3 - вернуться в главное меню");
 	puts(" 0 - выйти из программы");
 	printf("> ");
@@ -262,7 +340,7 @@ int screen_tab_F(int n)
 	print_F(n);
 	puts("===============================================================");
 	puts("Каковы дальнейшие действия?");
-	puts(" 1 - Ввести данные для табуляции");
+	puts(" 1 - Ввести данные для табуляции и построения графика");
 	puts(" 2 - вернуться к расчёту функции");
 	puts(" 3 - вернуться в главное меню");
 	puts(" 0 - выйти из программы");
@@ -320,6 +398,17 @@ int screen_tab_F(int n)
 				switch (v)
 				{
 				case 1:
+					draw_F(x1, x2, t, n);
+
+					printf("Продолжить табулирование функции F%d?\n", n);
+					puts(" 1 - Да");
+					puts(" 0 - Нет");
+					printf("> ");
+					scanf("%d", &v);
+					if (v)
+						screen_tab_F(n);
+					else
+						screen_start(1);
 					return 0;
 				case 2:
 					screen_tab_F(n);
@@ -357,6 +446,7 @@ int screen_tab_F(int n)
 	return 0;
 }
 
+//поменять размер окна по умолчанию
 int main()
 {
 	setlocale(LC_ALL, "RUS");
